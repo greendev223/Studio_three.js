@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 import * as THREE from "three"
 
-import FollowCursor from './components/FollowerCursor'
+import FollowerCursor from './components/FollowerCursor'
 import Header from './components/Header'
 import DotText from './components/DotText'
 import HorizontalText from './components/HorizontalText'
@@ -305,15 +305,25 @@ const Home: NextPage = () => {
     exit : {
       y: 300,
       transition: {
-        duration: 1,
-        ease: [.19,1,.22,1]
+        duration: 1.5,
+        ease: [.19,1,.22,1],
+        delay:1
       }
     },
     exitTwo : {
       y: 300,
       opacity:1,
       transition: {
-        duration: 1,
+        duration: 1.5,
+        ease: [.19,1,.22,1],
+        delay:0.5
+      }
+    },
+    exit3 : {
+      y: 300,
+      opacity:1,
+      transition: {
+        duration: 1.5,
         ease: [.19,1,.22,1]
       }
     },
@@ -327,13 +337,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Landing/>
-      <SmoothScroll bkgroundColor={isDark?color1:color2} foreColor={isDark?color2:color1}>
-        <div className="main-wrapper">
+      <div style={{backgroundColor:isDark?color1:color2, color:isDark?color2:color1}}>
+        <div className="main-wrapper w-full h-full overflow-hidden uppercase" 
+        >
           <Header/>
           <motion.div exit='exit' className="content">
             
             <section className="title-text fluid__item fluid__item--home fluid__item--current sm:mb-[0px] md:mb-[150px] lg:mb-[0px] sm:text-[53px] md:text-[62px] lg:text-[85px] xl:text-[97px] leading-[50px] md:leading-[100px]">
-              <motion.div ref={textOne} className="title1 mt-32">
+              <motion.div ref={textOne} exit='exitTwo' className="title1 mt-32">
                 <div className='animation-mask'>
                   <motion.p variants={animation} className="animation-text1" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Independent</motion.p>
                 </div>
@@ -402,7 +413,7 @@ const Home: NextPage = () => {
               </div>
             </section>
 
-            <motion.section exit='exitTwo' variants={animation}  style={{opacity:0, transform:"translate(0,200px)"}} ref={swiperImages}>
+            <motion.section exit='exit3' variants={animation}  style={{opacity:0, transform:"translate(0,200px)"}} ref={swiperImages}>
               <div className='md:hidden h-[100px]'/>
               <ParallaxEffect/>
             </motion.section>
@@ -450,21 +461,19 @@ const Home: NextPage = () => {
               </div>
             </section>
 
+            <div className='w-full max-w-[1440px] mx-auto text-14 flex justify-end'>
+              <DotText scrollAnimation={true} leftalign={false} text="SELECT PROJECTS" />
+              <div className="h-[80px] md:h-[30px]"></div>
+            </div>
             <motion.section animate={{transition:{staggerChildren: 0.5}}} className="horizontal-section" >
-              <div className='w-full max-w-[1440px] mx-auto text-14 flex justify-end' style={{marginRight:'calc( ( 100vw - 1400px )/2)'}}>
-                <DotText scrollAnimation={true} leftalign={false} text="SELECT PROJECTS" />
-              </div>
-              <div className="h-[16px] md:h-[30px]"></div>
               <div className='overflow-hidden'>
-                <motion.div 
-                  exit={{y: 800, opacity: 1, transition: { duration: 1, ease: [.19,1,.22,1] } }}                
-                >
-                  <HorizontalText step={-1.8} text="VICIS PRO /" url={'img/img00.jpg'} index={0} changeCanvasImageState={changeCanvasImageState}/>
-                  <HorizontalText step={ 1.8} text="OPEN FORMAT /" url={'img/img01.jpg'} index={1} changeCanvasImageState={changeCanvasImageState}/>
-                  <HorizontalText step={-1.1} text="BLUEPRINT PHOENIX /" url={'img/img02.jpg'} index={2} changeCanvasImageState={changeCanvasImageState}/>
-                  <HorizontalText step={ 1.1} text="TWELVES /" url={'img/img03.jpg'} index={3} changeCanvasImageState={changeCanvasImageState}/>
-                  <HorizontalText step={-2.5} text="CROOKS&CASTLES /" url={'img/img04.jpg'} index={4} changeCanvasImageState={changeCanvasImageState}/>
-                  <HorizontalText step={ 2.5} text="JASON MARKK /" url={'img/img05.jpg'} index={5} changeCanvasImageState={changeCanvasImageState}/>
+                <motion.div exit={{y: 800, opacity: 1, transition: { duration: 1, ease: [.19,1,.22,1] } }}>
+                  <HorizontalText step={-1.0} text="VICIS PRO /" url={'img/img00.jpg'} index={0} changeCanvasImageState={changeCanvasImageState}/>
+                  <HorizontalText step={ 1.0} text="OPEN FORMAT /" url={'img/img01.jpg'} index={1} changeCanvasImageState={changeCanvasImageState}/>
+                  <HorizontalText step={-0.6} text="BLUEPRINT PHOENIX /" url={'img/img02.jpg'} index={2} changeCanvasImageState={changeCanvasImageState}/>
+                  <HorizontalText step={ 0.6} text="TWELVES /" url={'img/img03.jpg'} index={3} changeCanvasImageState={changeCanvasImageState}/>
+                  <HorizontalText step={-1.5} text="CROOKS&CASTLES /" url={'img/img04.jpg'} index={4} changeCanvasImageState={changeCanvasImageState}/>
+                  <HorizontalText step={ 1.5} text="JASON MARKK /" url={'img/img05.jpg'} index={5} changeCanvasImageState={changeCanvasImageState}/>
                 </motion.div>
               </div>
             </motion.section>
@@ -514,13 +523,12 @@ const Home: NextPage = () => {
             
           </motion.div>
         </div>
-      </SmoothScroll>
-      <div id='hover-image-canvas' className="pointer-events-none" 
-        style={{width:'100%', height:'100%', position:'fixed', left:0, top:0, zIndex:1, 
-        opacity:showCanvasImage?1:0.0, transition:'opacity 0.3s ease-out' }}/>
+        <div id='hover-image-canvas' className="pointer-events-none" 
+          style={{width:'100%', height:'100%', position:'fixed', left:0, top:0, zIndex:1, 
+          opacity:showCanvasImage?1:0.0, transition:'opacity 0.3s ease-out' }}/>
 
-      <div className="hidden md:block"><FollowCursor/></div>
-      
+        <div className="hidden md:block"><FollowerCursor/></div>
+      </div>
     </>
   )
 }
