@@ -1,5 +1,6 @@
 import React from 'react'
 import {isMobile} from 'react-device-detect'
+
 const ParallaxItem = (props:any) => {
   let left:number = 10;
   if(typeof window!=='undefined')

@@ -6,27 +6,39 @@ const RisingAnimationText = (props:any) => {
   const [animation, setanimation] = useState(false)
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (!animation) {
-        const clientHeight = document.documentElement.clientHeight;
-        if(risingTextRef.current){
-          const dotTextSectionY = risingTextRef.current.getBoundingClientRect().y;
-          const dotTextSectionheight = risingTextRef.current.getBoundingClientRect().height;
+    if (props.autoAnimation){
 
-          if (clientHeight > dotTextSectionY + (dotTextSectionheight * 2)/4) {
-            let animations = document.getElementsByClassName(props.animateName)  
-            if (animations.length > 0) {
-              for (let i = 0; i < animations.length; i++) {
-                let animation = animations[i]
-                gsap.to(animation, 1.5, { top: 0, opacity:1, ease: 'expo' });  
-              }
-              setanimation(true)  
+      if(risingTextRef.current){
+          let animations = document.getElementsByClassName(props.animateName)  
+          if (animations.length > 0) {
+            for (let i = 0; i < animations.length; i++) {
+              let animation = animations[i]
+              gsap.to(animation, 1.5, { top: 0, opacity:1, ease: 'expo', delay:3.2 + 0.5*i });  
             }
           }
-        }
-        
       }
-    })
+    }else{
+      window.addEventListener("scroll", () => {
+        if (!animation) {
+          const clientHeight = document.documentElement.clientHeight;
+          if(risingTextRef.current){
+            const dotTextSectionY = risingTextRef.current.getBoundingClientRect().y;
+            const dotTextSectionheight = risingTextRef.current.getBoundingClientRect().height;
+
+            if (clientHeight > dotTextSectionY + (dotTextSectionheight * 2)/4) {
+              let animations = document.getElementsByClassName(props.animateName)  
+              if (animations.length > 0) {
+                for (let i = 0; i < animations.length; i++) {
+                  let animation = animations[i]
+                  gsap.to(animation, 1.5, { top: 0, opacity:1, ease: 'expo' });  
+                }
+                setanimation(true)  
+              }
+            }
+          }          
+        }
+      })
+    }
 
   }, []);
 

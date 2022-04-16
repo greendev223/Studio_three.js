@@ -4,7 +4,7 @@ import React,{useState, useEffect} from 'react'
 function Landing(props:any) {
   function AnimationText(){
     gsap.to(".landing-page-animation", 0.5, { 
-      top: "-100%",
+      top: "-130vh",
       ease: "easeInOut",
       delay: 1.6
     });

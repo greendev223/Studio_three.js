@@ -1,12 +1,21 @@
 import React,{useState, useEffect} from 'react'
 import Link from 'next/link'
-import { FaBars } from "react-icons/fa";
-import { motion } from "framer-motion";
+import MobileMenu from './MobileMenu'
+import { FaBars } from "react-icons/fa"
+import { motion } from "framer-motion"
 import {gsap} from 'gsap'
-import {CustomEase} from "gsap/CustomEase";
+import {CustomEase} from "gsap/CustomEase"
+
 gsap.registerPlugin(CustomEase);
 
-const Header = (props:any) => {
+const Header = () => {
+
+  const [mobileMenu, SetMobileMenu] = useState(false)
+
+  const changeMenuState = (value:boolean) => {
+    SetMobileMenu(value)
+  }
+
   function AnimationText(){
 
     let animations = document.getElementsByTagName('a')
@@ -21,8 +30,7 @@ const Header = (props:any) => {
     }
 
   }
-  
-  
+    
   useEffect(() => {
     window.onload = () => {
       AnimationText()
@@ -35,7 +43,8 @@ const Header = (props:any) => {
       opacity: 1,
       transition: {
         duration: 1.0,
-        ease: [.19,1,.22,1]
+        ease: [.19,1,.22,1],
+        delay:0.5, 
       }
     },
   }
@@ -55,10 +64,9 @@ const Header = (props:any) => {
               Design Studio
             </motion.a>
             
-            <motion.a href="/mobilemenu" variants={animation} className="text-14 font-normal">            
-              <FaBars/>
+            <motion.a href="#" variants={animation} className="text-14 font-normal" onClick={()=>changeMenuState(true)}>
+              <FaBars />              
             </motion.a>
-            
           </motion.div>
         </div>
       </motion.div>
@@ -94,7 +102,17 @@ const Header = (props:any) => {
                 &nbsp;&nbsp;CONTACT
               </motion.a>
             </Link>
-        </motion.div>        
+        </motion.div>
+      </div>
+
+      <div className="mobile-menu w-full z-50 fixed top-0 left-0" >
+        <div className='relative w-full h-auto max-w-[390px] mx-auto '
+          style={{
+            display:mobileMenu?'block':'none',
+          }}
+        >
+          <MobileMenu state = {mobileMenu} changeState = {changeMenuState}/>
+        </div>
       </div>
     </>
   )
